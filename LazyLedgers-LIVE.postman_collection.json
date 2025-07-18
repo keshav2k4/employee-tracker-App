@@ -1,0 +1,903 @@
+{
+	"info": {
+		"_postman_id": "e661aa92-df1e-4a49-b190-b330f4d3a3fc",
+		"name": "LazyLedgers-LIVE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-os",
+						"value": "android"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!and"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapipwd!11and"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "is-api-call",
+						"value": "1"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "9898119868",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "superadmin",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}api/auth/login",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logOUT",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}api/auth/logout",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login Account",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "is-api-call",
+						"value": "1"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "9924310757",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "superadmin",
+							"type": "default"
+						},
+						{
+							"key": "XDEBUG_SESSION",
+							"value": "vsc",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}api/auth/loginact?XDEBUG_SESSION_START=PHPSTROM",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"auth",
+						"loginact"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTROM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-empmst",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "api_where",
+						"value": "(mobile_phone = '9824147822' or whatsapp_phone = '9824147822')",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}api/auth/fetchempmst/1",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"auth",
+						"fetchempmst",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-app-settings",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}admin/setting/view/app/0/google_api_key",
+					"host": [
+						"{{url}}admin"
+					],
+					"path": [
+						"setting",
+						"view",
+						"app",
+						"0",
+						"google_api_key"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api-help",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "test",
+							"value": "111",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}api/compcustom/help",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"compcustom",
+						"help"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acmst-fetch",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					},
+					{
+						"key": "api_where",
+						"value": "(accounttype_id = 1 or accounttype_id = 11)  ",
+						"description": "to add filter for mobile number add [and (office_phone1 = '9824147821' or office_phone2 = '9824147821')]"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/accountmaster/fetch/0?XDEBUG_SESSION_START=PHPSTROM",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"accountmaster",
+						"fetch",
+						"0"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTROM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-company",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/company/fetch/0?XDEBUG_SESSION_START=PHPSTROM",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"company",
+						"fetch",
+						"0"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTROM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-year",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/year/fetch/0?XDEBUG_SESSION_START=PHPSTROM",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"year",
+						"fetch",
+						"0"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTROM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-branch",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/branch/fetch/0?XDEBUG_SESSION_START=PHPSTROM",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"branch",
+						"fetch",
+						"0"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTROM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-cities",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					},
+					{
+						"key": "api_where",
+						"value": "state_id = 12"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/company/fetchcity/0?XDEBUG_SESSION_START=PHPSTROM",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"company",
+						"fetchcity",
+						"0"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTROM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-defaults",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brain",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bitapi",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "is-api-call",
+						"value": "1"
+					},
+					{
+						"key": "subdomain",
+						"value": "{{subdomain}}"
+					},
+					{
+						"key": "app-auth-user",
+						"value": "llapiusr_!web"
+					},
+					{
+						"key": "app-auth-pwd",
+						"value": "llapiusr!11web"
+					},
+					{
+						"key": "app-os",
+						"value": "web"
+					},
+					{
+						"key": "data-format",
+						"value": "j"
+					},
+					{
+						"key": "user-access-token",
+						"value": "{{mTokenId}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/transaction/fetchdefaults/salord",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"transaction",
+						"fetchdefaults",
+						"salord"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://app.lazyledgers.com/",
+			"type": "string"
+		},
+		{
+			"key": "subdomain",
+			"value": "qtech.in",
+			"type": "string"
+		},
+		{
+			"key": "mTokenId",
+			"value": "35af266851f4713f251a86b944b6c1938df71d89fa8b1189de1dd5aec099587c543a159693dea8093abba032d855010a5f611bcd716499aaa4f9a1b82877c0dd"
+		}
+	]
+}
