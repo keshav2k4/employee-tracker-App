@@ -8,10 +8,13 @@ import {
   ScrollView,
   RefreshControl,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AuthService from '../services/authService';
 import LocationService from '../services/locationService';
+
+const { width } = Dimensions.get('window');
 
 const DashboardScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
@@ -29,8 +32,7 @@ const DashboardScreen = ({ navigation }) => {
       const currentUser = await AuthService.getCurrentUser();
       setUser(currentUser);
       setIsTracking(LocationService.isTrackingActive());
-      
-      // Get current location
+
       try {
         const location = await LocationService.getCurrentLocationWithName();
         setCurrentLocation(location);
@@ -45,22 +47,18 @@ const DashboardScreen = ({ navigation }) => {
   };
 
   const handleLogout = async () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Logout',
-          style: 'destructive',
-          onPress: async () => {
-            await LocationService.stopTracking();
-            await AuthService.logout();
-            navigation.replace('Login');
-          },
+    Alert.alert('Logout', 'Are you sure you want to logout?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Logout',
+        style: 'destructive',
+        onPress: async () => {
+          await LocationService.stopTracking();
+          await AuthService.logout();
+          navigation.replace('Login');
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const handleStartTracking = async () => {
@@ -85,13 +83,8 @@ const DashboardScreen = ({ navigation }) => {
     setRefreshing(false);
   };
 
-  const navigateToMap = () => {
-    navigation.navigate('Map');
-  };
-
-  const navigateToHistory = () => {
-    navigation.navigate('History');
-  };
+  const navigateToMap = () => navigation.navigate('Map');
+  const navigateToHistory = () => navigation.navigate('History');
 
   if (loading) {
     return (
@@ -106,9 +99,9 @@ const DashboardScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-        }>
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+        contentContainerStyle={{ paddingBottom: width * 0.1 }}
+      >
         <View style={styles.header}>
           <Text style={styles.title}>Employee Tracker</Text>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
@@ -116,48 +109,51 @@ const DashboardScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.userCard}>
-          <Text style={styles.welcomeText}>Welcome back!</Text>
+        <View style={styles.card}>
+          <Text style={styles.cardHeader}>Welcome back!</Text>
           <Text style={styles.userName}>{user?.full_name || 'User'}</Text>
-          <Text style={styles.userEmail}>{user?.email || 'No email provided'}</Text>
-          <Text style={styles.userDetails}>Role: {user?.usertype_name || 'Employee'}</Text>
-          <Text style={styles.userDetails}>Phone: {user?.mobile_phone || 'No phone'}</Text>
-          <Text style={styles.userDetails}>Employee ID: {user?.employee_id || 'N/A'}</Text>
+          <Text style={styles.userInfo}>{user?.email || 'No email provided'}</Text>
+          <Text style={styles.userInfo}>Role: {user?.usertype_name || 'Employee'}</Text>
+          <Text style={styles.userInfo}>Phone: {user?.mobile_phone || 'N/A'}</Text>
+          <Text style={styles.userInfo}>Employee ID: {user?.employee_id || 'N/A'}</Text>
         </View>
 
-        <View style={styles.trackingCard}>
-          <Text style={styles.cardTitle}>Location Tracking</Text>
+        <View style={styles.card}>
+          <Text style={styles.cardHeader}>Location Tracking</Text>
           <View style={styles.trackingStatus}>
-            <Text style={styles.statusText}>
-              Status: {isTracking ? 'Active' : 'Inactive'}
-            </Text>
-            <View style={[styles.statusIndicator, 
-              { backgroundColor: isTracking ? '#4CAF50' : '#FF5722' }]} />
+            <Text style={styles.statusText}>Status: {isTracking ? 'Active' : 'Inactive'}</Text>
+            <View
+              style={[
+                styles.statusDot,
+                { backgroundColor: isTracking ? '#4CAF50' : '#FF5722' },
+              ]}
+            />
           </View>
-          
+
           {currentLocation && (
             <Text style={styles.locationText}>
-              Current Location: {currentLocation.locationName || 'Unknown Location'}
+              Current Location: {currentLocation.locationName || 'Unknown'}
             </Text>
           )}
 
           <TouchableOpacity
-            style={[styles.trackingButton, 
-              { backgroundColor: isTracking ? '#FF5722' : '#4CAF50' }]}
-            onPress={isTracking ? handleStopTracking : handleStartTracking}>
+            style={[
+              styles.trackingButton,
+              { backgroundColor: isTracking ? '#FF5722' : '#4CAF50' },
+            ]}
+            onPress={isTracking ? handleStopTracking : handleStartTracking}
+          >
             <Text style={styles.trackingButtonText}>
               {isTracking ? 'Stop Tracking' : 'Start Tracking'}
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.actionsCard}>
-          <Text style={styles.cardTitle}>Actions</Text>
-          
+        <View style={styles.card}>
+          <Text style={styles.cardHeader}>Actions</Text>
           <TouchableOpacity style={styles.actionButton} onPress={navigateToMap}>
             <Text style={styles.actionButtonText}>View Employee Map</Text>
           </TouchableOpacity>
-
           <TouchableOpacity style={styles.actionButton} onPress={navigateToHistory}>
             <Text style={styles.actionButtonText}>View Location History</Text>
           </TouchableOpacity>
@@ -173,16 +169,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   scrollView: {
-    flex: 1,
+    paddingHorizontal: width * 0.05,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
   },
   loadingText: {
-    marginTop: 10,
+    marginTop: 12,
     fontSize: 16,
     color: '#666',
   },
@@ -190,77 +185,50 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    marginVertical: width * 0.05,
   },
   title: {
-    fontSize: 24,
+    fontSize: width * 0.06,
     fontWeight: 'bold',
     color: '#333',
   },
   logoutButton: {
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 5,
+    paddingHorizontal: width * 0.04,
+    paddingVertical: width * 0.02,
+    borderRadius: 6,
     borderWidth: 1,
     borderColor: '#FF5722',
   },
   logoutButtonText: {
     color: '#FF5722',
-    fontSize: 14,
+    fontSize: width * 0.035,
     fontWeight: '500',
   },
-  userCard: {
-    margin: 20,
-    padding: 20,
+  card: {
     backgroundColor: '#fff',
+    padding: width * 0.05,
     borderRadius: 10,
+    marginBottom: width * 0.05,
     shadowColor: '#000',
+    shadowOpacity: 0.05,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    elevation: 2,
   },
-  welcomeText: {
-    fontSize: 18,
-    color: '#666',
-    marginBottom: 5,
+  cardHeader: {
+    fontSize: width * 0.05,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
   },
   userName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
+    fontSize: width * 0.05,
+    fontWeight: '600',
+    color: '#007AFF',
   },
-  userEmail: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 5,
-  },
-  userDetails: {
-    fontSize: 14,
-    color: '#777',
-    marginBottom: 3,
-  },
-  trackingCard: {
-    margin: 20,
-    marginTop: 0,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
+  userInfo: {
+    fontSize: width * 0.04,
+    color: '#555',
+    marginBottom: 4,
   },
   trackingStatus: {
     flexDirection: 'row',
@@ -268,54 +236,40 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   statusText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: width * 0.04,
+    color: '#333',
     marginRight: 10,
   },
-  statusIndicator: {
+  statusDot: {
     width: 12,
     height: 12,
     borderRadius: 6,
   },
   locationText: {
-    fontSize: 14,
+    fontSize: width * 0.04,
     color: '#666',
-    marginBottom: 15,
+    marginBottom: 12,
   },
   trackingButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: width * 0.035,
     borderRadius: 8,
     alignItems: 'center',
   },
   trackingButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: width * 0.045,
     fontWeight: '600',
-  },
-  actionsCard: {
-    margin: 20,
-    marginTop: 0,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   actionButton: {
     backgroundColor: '#007AFF',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: width * 0.045,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 10,
   },
   actionButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: width * 0.045,
     fontWeight: '500',
   },
 });

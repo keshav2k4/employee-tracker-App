@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import {
   View,
@@ -14,6 +15,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AuthService from '../services/authService';
 
+const { width, height } = Dimensions.get('window');
+
 const LoginScreen = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -26,22 +29,20 @@ const LoginScreen = ({ navigation }) => {
     }
 
     setLoading(true);
-    
+
     try {
-      // Add timeout to prevent infinite loading
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error('Request timeout - Please check your internet connection')), 30000);
       });
-      
+
       const loginPromise = AuthService.login(phone, password);
-      
+
       const result = await Promise.race([loginPromise, timeoutPromise]);
-      
+
       console.log('Login result:', result);
-      
+
       if (result && result.success) {
         console.log('Login successful, navigating to Dashboard');
-        // Add small delay to ensure state is updated
         setTimeout(() => {
           navigation.replace('Dashboard');
         }, 100);
@@ -105,8 +106,6 @@ const LoginScreen = ({ navigation }) => {
               )}
             </TouchableOpacity>
 
-
-            {/* Test Credential Buttons */}
             <View style={styles.testCredentialsContainer}>
               <Text style={styles.testCredentialsTitle}>Available Credentials:</Text>
               <TouchableOpacity
@@ -114,8 +113,7 @@ const LoginScreen = ({ navigation }) => {
                 onPress={() => {
                   setPhone('9898119868');
                   setPassword('superadmin');
-                }}
-              >
+                }}>
                 <Text style={[styles.testButtonText, styles.primaryButtonText]}>✅ Admin User (Working)</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -126,8 +124,7 @@ const LoginScreen = ({ navigation }) => {
                     'Manager credentials (9924310757) are invalid.\n\nServer response: "Invalid username and/or password"\n\nThe password may have been changed or the account disabled.',
                     [{ text: 'OK' }]
                   );
-                }}
-              >
+                }}>
                 <Text style={[styles.testButtonText, styles.disabledButtonText]}>❌ Manager User (Invalid)</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -135,10 +132,9 @@ const LoginScreen = ({ navigation }) => {
                 onPress={async () => {
                   try {
                     setLoading(true);
-                    // Test both credentials
                     const test1 = await AuthService.login('9898119868', 'superadmin');
                     const test2 = await AuthService.login('9924310757', 'superadmin');
-                    
+
                     Alert.alert(
                       'Credential Test Results',
                       `Admin (9898119868): ${test1.success ? '✅ Working' : '❌ Failed'}\n` +
@@ -153,15 +149,12 @@ const LoginScreen = ({ navigation }) => {
                     setLoading(false);
                   }
                 }}
-                disabled={loading}
-              >
+                disabled={loading}>
                 <Text style={styles.testButtonText}>🧪 Test All Credentials</Text>
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.footerText}>
-              Employee Tracker v1.0 - Expo
-            </Text>
+            <Text style={styles.footerText}>Employee Tracker v1.0 - Expo</Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -184,45 +177,43 @@ const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 30,
-    paddingVertical: 50,
+    paddingHorizontal: width * 0.07,
+    paddingVertical: height * 0.05,
   },
   title: {
-    fontSize: 32,
+    fontSize: width * 0.07,
     fontWeight: 'bold',
-    color: '#333',
     textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: width * 0.045,
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
+    color: '#555',
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: width * 0.04,
+    marginBottom: 5,
     color: '#333',
-    marginBottom: 8,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
-    padding: 15,
-    fontSize: 16,
+    padding: width * 0.04,
+    fontSize: width * 0.045,
     backgroundColor: '#fff',
   },
   loginButton: {
     backgroundColor: '#007AFF',
     borderRadius: 8,
-    padding: 15,
+    padding: width * 0.04,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: width * 0.05,
   },
   disabledButton: {
     opacity: 0.6,
@@ -268,12 +259,6 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: '#2e7d32',
     fontWeight: '600',
-  },
-  disabledButton: {
-    backgroundColor: '#f5f5f5',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    opacity: 0.7,
   },
   disabledButtonText: {
     color: '#999',

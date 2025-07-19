@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class AuthService {
   constructor() {
-    this.API_BASE_URL = 'http://app.lazyledgers.com';
+    this.API_BASE_URL = 'http://app.lazyledgers.com';  // Revert to original http
     this.TOKEN_KEY = 'auth_token';
     this.USER_KEY = 'user_data';
     this.SUBDOMAIN = 'qtech.in';
