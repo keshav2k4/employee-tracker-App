@@ -128,7 +128,7 @@ const HistoryScreen = () => {
   if (loading) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color="#717274ff" />
         <Text style={styles.loadingText}>Loading history...</Text>
       </SafeAreaView>
     );
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeFilter: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#777a7cff',
   },
   filterText: {
     fontSize: 14,

@@ -97,7 +97,7 @@ const HistoryScreen = () => {
     <View style={styles.historyItem}>
       <View style={styles.itemHeader}>
         <View style={styles.historyRow}>
-          <SimpleIcon name="location-on" size={18} color="#007AFF" />
+          <SimpleIcon name="location-on" size={18} color="#686a6cff" />
           <Text style={styles.locationText} numberOfLines={2}>
             {item.locationName || 'Unknown Location'}
           </Text>
@@ -111,7 +111,7 @@ const HistoryScreen = () => {
       
       <View style={styles.itemDetails}>
         <View style={styles.historyRow}>
-          <SimpleIcon name="access-time" size={16} color="#666" />
+          <SimpleIcon name="access-time" size={16} color="#686a6cff" />
           <Text style={styles.timeText}>
             {new Date(item.timestamp).toLocaleString()}
           </Text>
@@ -119,7 +119,7 @@ const HistoryScreen = () => {
         
         {item.accuracy && (
           <View style={styles.historyRow}>
-            <SimpleIcon name="my-location" size={16} color="#666" />
+            <SimpleIcon name="my-location" size={16} color="#686a6cff" />
             <Text style={styles.accuracyText}>Accuracy: {Math.round(item.accuracy)}m</Text>
           </View>
         )}
@@ -138,7 +138,7 @@ const HistoryScreen = () => {
   if (loading) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color="#656667ff" />
         <Text style={styles.loadingText}>Loading history...</Text>
       </SafeAreaView>
     );
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: '#646464ff',
   },
   statLabel: {
     fontSize: 12,
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeFilter: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#5f6060ff',
   },
   filterText: {
     fontSize: 14,
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   localBadge: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#7f9380ff',
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 12,

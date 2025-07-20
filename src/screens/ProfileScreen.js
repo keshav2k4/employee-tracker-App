@@ -61,7 +61,7 @@ const ProfileScreen = ({ navigation }) => {
   if (loading) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color="#b2b2b2ff" />
         <Text style={styles.loadingText}>Loading profile...</Text>
       </SafeAreaView>
     );
@@ -112,7 +112,7 @@ const ProfileScreen = ({ navigation }) => {
             style={styles.logoutButton}
             onPress={handleLogout}
           >
-            <Text style={styles.logoutButtonText}>🚪 Logout</Text>
+            <Text style={styles.logoutButtonText}> Logout</Text>
           </TouchableOpacity>
         </View>
 
@@ -131,7 +131,7 @@ const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#858484ff',
     paddingHorizontal: width * 0.05,
   },
   loadingContainer: {
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 12,
     fontSize: 16,
-    color: '#666',
+    color: '#858484ff',
   },
   header: {
     marginVertical: width * 0.05,
@@ -150,14 +150,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: width * 0.06,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#858484ff',
   },
   card: {
     backgroundColor: '#fff',
     padding: width * 0.05,
     borderRadius: 12,
     marginBottom: width * 0.04,
-    shadowColor: '#000',
+    shadowColor: '#8e8484ff',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   actionButton: {
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: '#e12727ff',
   },
   actionButtonText: {
     fontSize: width * 0.04,
@@ -195,18 +195,18 @@ const styles = StyleSheet.create({
   logoutButton: {
     paddingVertical: 12,
     borderBottomWidth: 0,
-    backgroundColor: '#FF5722',
+    backgroundColor: '#827e76ff',
     marginTop: 8,
     borderRadius: 8,
     alignItems: 'center',
   },
   logoutButtonText: {
     fontSize: width * 0.04,
-    color: '#fff',
+    color: '#8c8d8eff',
     fontWeight: '600',
   },
   infoCard: {
-    backgroundColor: '#e3f2fd',
+    backgroundColor: '#9fa7adff',
     padding: width * 0.04,
     borderRadius: 8,
     marginBottom: width * 0.04,
