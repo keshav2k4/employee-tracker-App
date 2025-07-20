@@ -109,10 +109,10 @@ const ProfileScreen = ({ navigation }) => {
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={[styles.actionButton, styles.logoutButton]}
+            style={styles.logoutButton}
             onPress={handleLogout}
           >
-            <Text style={[styles.actionButtonText, { color: '#FF5722' }]}>Logout</Text>
+            <Text style={styles.logoutButtonText}>🚪 Logout</Text>
           </TouchableOpacity>
         </View>
 
@@ -193,7 +193,17 @@ const styles = StyleSheet.create({
     color: '#007AFF',
   },
   logoutButton: {
+    paddingVertical: 12,
     borderBottomWidth: 0,
+    backgroundColor: '#FF5722',
+    marginTop: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  logoutButtonText: {
+    fontSize: width * 0.04,
+    color: '#fff',
+    fontWeight: '600',
   },
   infoCard: {
     backgroundColor: '#e3f2fd',

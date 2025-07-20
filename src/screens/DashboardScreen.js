@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,13 @@ import {
   RefreshControl,
   ActivityIndicator,
   Dimensions,
+  Animated,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import AuthService from '../services/authService';
 import LocationService from '../services/locationService';
+import SimpleIcon from '../components/SimpleIcon';
 
 const { width } = Dimensions.get('window');
 
@@ -44,21 +47,6 @@ const DashboardScreen = ({ navigation }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = async () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Logout',
-        style: 'destructive',
-        onPress: async () => {
-          await LocationService.stopTracking();
-          await AuthService.logout();
-          navigation.replace('Login');
-        },
-      },
-    ]);
   };
 
   const handleStartTracking = async () => {
@@ -103,10 +91,12 @@ const DashboardScreen = ({ navigation }) => {
         contentContainerStyle={{ paddingBottom: width * 0.1 }}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Employee Tracker</Text>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>Logout</Text>
-          </TouchableOpacity>
+          <LinearGradient
+            colors={['#667eea', '#764ba2']}
+            style={styles.titleBackground}
+          >
+            <Text style={styles.title}>📍 Employee Tracker</Text>
+          </LinearGradient>
         </View>
 
         <View style={styles.card}>
@@ -150,7 +140,7 @@ const DashboardScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.cardHeader}>Actions</Text>
+          <Text style={styles.cardHeader}>Quick Actions</Text>
           <TouchableOpacity style={styles.actionButton} onPress={navigateToMap}>
             <Text style={styles.actionButtonText}>View Employee Map</Text>
           </TouchableOpacity>
@@ -166,7 +156,7 @@ const DashboardScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f8fafc',
   },
   scrollView: {
     paddingHorizontal: width * 0.05,
@@ -182,63 +172,63 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: width * 0.05,
+    marginVertical: width * 0.06,
+  },
+  titleBackground: {
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 8,
   },
   title: {
-    fontSize: width * 0.06,
+    fontSize: width * 0.055,
     fontWeight: 'bold',
-    color: '#333',
-  },
-  logoutButton: {
-    paddingHorizontal: width * 0.04,
-    paddingVertical: width * 0.02,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#FF5722',
-  },
-  logoutButtonText: {
-    color: '#FF5722',
-    fontSize: width * 0.035,
-    fontWeight: '500',
+    color: '#fff',
+    textAlign: 'center',
   },
   card: {
     backgroundColor: '#fff',
     padding: width * 0.05,
-    borderRadius: 10,
-    marginBottom: width * 0.05,
+    borderRadius: 20,
+    marginBottom: width * 0.04,
     shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 12,
+    elevation: 5,
   },
   cardHeader: {
-    fontSize: width * 0.05,
+    fontSize: width * 0.045,
     fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#333',
+    marginBottom: 16,
+    color: '#1a202c',
   },
   userName: {
     fontSize: width * 0.05,
-    fontWeight: '600',
+    fontWeight: '700',
     color: '#007AFF',
+    marginBottom: 8,
   },
   userInfo: {
-    fontSize: width * 0.04,
-    color: '#555',
+    fontSize: width * 0.038,
+    color: '#4a5568',
     marginBottom: 4,
   },
   trackingStatus: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 16,
   },
   statusText: {
     fontSize: width * 0.04,
-    color: '#333',
-    marginRight: 10,
+    color: '#2d3748',
+    fontWeight: '600',
+    marginRight: 12,
   },
   statusDot: {
     width: 12,
@@ -246,31 +236,44 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   locationText: {
-    fontSize: width * 0.04,
-    color: '#666',
-    marginBottom: 12,
+    fontSize: width * 0.038,
+    color: '#4a5568',
+    marginBottom: 16,
+    backgroundColor: '#f7fafc',
+    padding: 12,
+    borderRadius: 8,
   },
   trackingButton: {
-    paddingVertical: width * 0.035,
-    borderRadius: 8,
+    paddingVertical: 16,
+    borderRadius: 12,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
   },
   trackingButtonText: {
     color: '#fff',
-    fontSize: width * 0.045,
+    fontSize: width * 0.042,
     fontWeight: '600',
   },
   actionButton: {
     backgroundColor: '#007AFF',
-    paddingVertical: width * 0.045,
-    borderRadius: 8,
+    paddingVertical: 16,
+    borderRadius: 12,
     alignItems: 'center',
     marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   actionButtonText: {
     color: '#fff',
-    fontSize: width * 0.045,
-    fontWeight: '500',
+    fontSize: width * 0.04,
+    fontWeight: '600',
   },
 });
 
