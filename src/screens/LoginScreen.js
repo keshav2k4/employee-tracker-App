@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AuthService from '../services/authService';
+import { Card } from 'react-native-paper';
 
 const { width, height } = Dimensions.get('window');
 
@@ -67,44 +68,48 @@ const LoginScreen = ({ navigation }) => {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}>
           <View style={styles.loginContainer}>
-            <Text style={styles.title}>Employee Tracker</Text>
-            <Text style={styles.subtitle}>Login to your account</Text>
+            <Card style={styles.card}>
+              <View style={styles.cardContent}>
+                <Text style={styles.title}>Employee Tracker</Text>
+                <Text style={styles.subtitle}>Login to your account</Text>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Phone Number</Text>
-              <TextInput
-                style={styles.input}
-                value={phone}
-                onChangeText={setPhone}
-                placeholder="Enter your phone number"
-                keyboardType="phone-pad"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Phone Number</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={phone}
+                    onChangeText={setPhone}
+                    placeholder="Enter your phone number"
+                    keyboardType="phone-pad"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Enter your password"
-                secureTextEntry
-                autoCapitalize="none"
-              />
-            </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Password</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="Enter your password"
+                    secureTextEntry
+                    autoCapitalize="none"
+                  />
+                </View>
 
-            <TouchableOpacity
-              style={[styles.loginButton, loading && styles.disabledButton]}
-              onPress={handleLogin}
-              disabled={loading}>
-              {loading ? (
-                <ActivityIndicator color="#ffffff" />
-              ) : (
-                <Text style={styles.loginButtonText}>Login</Text>
-              )}
-            </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.loginButton, loading && styles.disabledButton]}
+                  onPress={handleLogin}
+                  disabled={loading}>
+                  {loading ? (
+                    <ActivityIndicator color="#ffffff" />
+                  ) : (
+                    <Text style={styles.loginButtonText}>Login</Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+            </Card>
 
             <View style={styles.testCredentialsContainer}>
               <Text style={styles.testCredentialsTitle}>Available Credentials:</Text>
@@ -165,7 +170,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#e9eef6',
   },
   keyboardContainer: {
     flex: 1,
@@ -180,17 +185,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.07,
     paddingVertical: height * 0.05,
   },
+  card: {
+    borderRadius: 16,
+    paddingVertical: 20,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 5,
+  },
+  cardContent: {
+    paddingHorizontal: 20,
+  },
   title: {
     fontSize: width * 0.07,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
+    color: '#1e1e1e',
   },
   subtitle: {
     fontSize: width * 0.045,
     textAlign: 'center',
     marginBottom: 20,
-    color: '#555',
+    color: '#666',
   },
   inputContainer: {
     marginBottom: 15,
@@ -202,15 +221,15 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderColor: '#ccc',
+    borderRadius: 10,
     padding: width * 0.04,
     fontSize: width * 0.045,
-    backgroundColor: '#fff',
+    backgroundColor: '#fefefe',
   },
   loginButton: {
     backgroundColor: '#007AFF',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: width * 0.04,
     alignItems: 'center',
     marginTop: width * 0.05,
@@ -240,7 +259,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   testButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f8f8f8',
     borderRadius: 6,
     padding: 10,
     marginBottom: 8,

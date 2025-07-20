@@ -1,6 +1,7 @@
 import * as Location from 'expo-location';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LocalStorageService from './localStorageService';
 
 class LocationService {
   constructor() {
@@ -91,15 +92,20 @@ class LocationService {
 
   async sendLocationUpdate(locationData) {
     try {
+      // Always save to local storage first
+      await LocalStorageService.saveLocationToHistory(locationData);
+      
       const employeeId = await this.getCurrentEmployeeId();
       const token = await this.getAuthToken();
       
       if (!employeeId) {
-        throw new Error('Employee ID not found');
+        console.log('No employee ID found, only saving locally');
+        return { success: true, savedLocally: true };
       }
       
       if (!token) {
-        throw new Error('Auth token not found');
+        console.log('No auth token found, only saving locally');
+        return { success: true, savedLocally: true };
       }
       
       const formData = new FormData();
@@ -112,22 +118,27 @@ class LocationService {
         formData.append('location_name', locationData.locationName);
       }
       
-      const response = await axios.post(`${this.API_BASE_URL}/api/employee/location/update`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'subdomain': this.SUBDOMAIN,
-          'app-os': 'web',
-          'app-auth-user': 'llapiusr_!web',
-          'app-auth-pwd': 'llapiusr!11web',
-          'data-format': 'j',
-          'is-api-call': '1',
-          'user-access-token': token,
-          'Authorization': 'Basic ' + btoa('brain:bitapi')
-        }
-      });
-      
-      console.log('Location update response:', response.data);
-      return response.data;
+      try {
+        const response = await axios.post(`${this.API_BASE_URL}/api/employee/location/update`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'subdomain': this.SUBDOMAIN,
+            'app-os': 'web',
+            'app-auth-user': 'llapiusr_!web',
+            'app-auth-pwd': 'llapiusr!11web',
+            'data-format': 'j',
+            'is-api-call': '1',
+            'user-access-token': token,
+            'Authorization': 'Basic ' + btoa('brain:bitapi')
+          }
+        });
+        
+        console.log('Location update response:', response.data);
+        return response.data;
+      } catch (serverError) {
+        console.error('Server update failed, but saved locally:', serverError);
+        return { success: true, savedLocally: true, serverError: serverError.message };
+      }
     } catch (error) {
       console.error('Failed to send location update:', error);
       throw error;
@@ -201,16 +212,28 @@ class LocationService {
 
   async getEmployeeLocations(employeeId = null, startDate = null, endDate = null) {
     try {
-      const params = new URLSearchParams();
-      if (employeeId) params.append('employeeId', employeeId);
-      if (startDate) params.append('startDate', startDate);
-      if (endDate) params.append('endDate', endDate);
+      // First try to get from local storage
+      const localHistory = await LocalStorageService.getLocationHistoryByDate(startDate, endDate);
+      
+      // Try to fetch from server as well
+      try {
+        const params = new URLSearchParams();
+        if (employeeId) params.append('employeeId', employeeId);
+        if (startDate) params.append('startDate', startDate);
+        if (endDate) params.append('endDate', endDate);
 
-      const response = await axios.get(`${this.API_BASE_URL}/location/history?${params}`);
-      return response.data;
+        const response = await axios.get(`${this.API_BASE_URL}/location/history?${params}`);
+        console.log('Got server history:', response.data?.length || 0, 'items');
+        
+        // Return server data if available, otherwise local data
+        return response.data || localHistory;
+      } catch (serverError) {
+        console.log('Server history not available, using local data:', serverError.message);
+        return localHistory;
+      }
     } catch (error) {
       console.error('Failed to fetch location history:', error);
-      throw error;
+      return [];
     }
   }
 

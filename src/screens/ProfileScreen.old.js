@@ -1,0 +1,279 @@
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import AuthService from '../services/authService';
+import LocationService from '../services/locationService';
+
+const { width } = Dimensions.get('window');
+
+const ProfileScreen = ({ navigation }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const currentUser = await AuthService.getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    Alert.alert(
+      'Logout', 
+      'Are you sure you want to logout?', 
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await LocationService.stopTracking();
+              await AuthService.logout();
+              navigation.replace('Login');
+            } catch (error) {
+              console.error('Logout error:', error);
+              Alert.alert('Error', 'Failed to logout. Please try again.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text style={styles.loadingText}>Loading profile...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Profile</Text>
+          <SimpleIcon name="person" size={28} color="#007AFF" />
+        </View>
+
+        {/* User Info Card */}
+        <View style={styles.card}>
+          <View style={styles.avatarContainer}>
+            <View style={styles.avatarPlaceholder}>
+              <SimpleIcon name="person" size={40} color="#007AFF" />
+            </View>
+          </View>
+          
+          <Text style={styles.userName}>
+            {user?.full_name || 'User'}
+          </Text>
+          
+          <View style={styles.userDetails}>
+            <View style={styles.detailRow}>
+              <SimpleIcon name="email" size={20} color="#666" />
+              <Text style={styles.detailText}>
+                {user?.email || 'No email provided'}
+              </Text>
+            </View>
+            
+            <View style={styles.detailRow}>
+              <SimpleIcon name="work" size={20} color="#666" />
+              <Text style={styles.detailText}>
+                {user?.usertype_name || 'Employee'}
+              </Text>
+            </View>
+            
+            <View style={styles.detailRow}>
+              <SimpleIcon name="phone" size={20} color="#666" />
+              <Text style={styles.detailText}>
+                {user?.mobile_phone || 'N/A'}
+              </Text>
+            </View>
+            
+            <View style={styles.detailRow}>
+              <SimpleIcon name="badge" size={20} color="#666" />
+              <Text style={styles.detailText}>
+                ID: {user?.employee_id || 'N/A'}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Account Actions Card */}
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <SimpleIcon name="settings" size={24} color="#007AFF" />
+            <Text style={styles.cardTitle}>Account Actions</Text>
+          </View>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => loadUserData()}
+          >
+            <SimpleIcon name="refresh" size={20} color="#007AFF" />
+            <Text style={styles.actionButtonText}>Refresh Profile</Text>
+            <SimpleIcon name="chevron-right" size={20} color="#ccc" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.actionButton, styles.logoutButton]}
+            onPress={handleLogout}
+          >
+            <SimpleIcon name="logout" size={20} color="#FF5722" />
+            <Text style={[styles.actionButtonText, { color: '#FF5722' }]}>Logout</Text>
+            <SimpleIcon name="chevron-right" size={20} color="#ccc" />
+          </TouchableOpacity>
+        </View>
+
+        {/* App Info Card */}
+        <View style={styles.infoCard}>
+          <SimpleIcon name="info-outline" size={20} color="#666" />
+          <Text style={styles.infoText}>
+            Employee Tracker v1.0.0{"\n"}
+            Manage your location tracking and view your profile information.
+          </Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    paddingHorizontal: width * 0.05,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#666',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: width * 0.05,
+  },
+  title: {
+    fontSize: width * 0.06,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  card: {
+    backgroundColor: '#fff',
+    padding: width * 0.05,
+    borderRadius: 12,
+    marginBottom: width * 0.04,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  avatarContainer: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  avatarPlaceholder: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#f0f7ff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#007AFF',
+  },
+  userName: {
+    fontSize: width * 0.05,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  userDetails: {
+    width: '100%',
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  detailText: {
+    fontSize: width * 0.04,
+    color: '#555',
+    marginLeft: 12,
+    flex: 1,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  cardTitle: {
+    fontSize: width * 0.045,
+    fontWeight: 'bold',
+    marginLeft: 12,
+    color: '#333',
+  },
+  actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  actionButtonText: {
+    fontSize: width * 0.04,
+    color: '#007AFF',
+    marginLeft: 12,
+    flex: 1,
+  },
+  logoutButton: {
+    borderBottomWidth: 0,
+  },
+  infoCard: {
+    flexDirection: 'row',
+    backgroundColor: '#e3f2fd',
+    padding: width * 0.04,
+    borderRadius: 8,
+    marginBottom: width * 0.04,
+  },
+  infoText: {
+    flex: 1,
+    fontSize: width * 0.035,
+    color: '#666',
+    marginLeft: 8,
+    lineHeight: width * 0.05,
+  },
+});
+
+export default ProfileScreen;
+
